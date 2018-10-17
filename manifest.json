@@ -1,0 +1,10 @@
+{
+  "name": "Aragon Enigma Voting app",
+  "description": "Create votes that execute actions on behalf of token holders using secret voting provided by Enigma network.",
+  "icons": [{
+    "src": "images/icon.png",
+    "sizes": "192x192"
+  }],
+  "script": "/script.js",
+  "start_url": "/index.html"
+}
