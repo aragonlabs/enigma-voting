@@ -11,15 +11,17 @@ git clone https://github.com/aragonlabs/enigma-voting
 cd enigma-voting
 npm i
 ```
-- Spin up an IPFS node. Make sure you have ports 5001 and 8080 available. You can use [this](https://github.com/aragon/dao-kits/tree/master/kits/beta-base) and run:
+- Spin up an IPFS node. Make sure you have ports 5001 and 8080 available. An easy way is to use `aragon ipfs`. Alternatively, you can use [this](https://github.com/aragon/dao-kits/tree/master/kits/beta-base) and run:
 ```
 docker-compose up ipfs
 ```
 Make sure that `docker-compose.yml` has port `"8080:8080"` exposed first.
+Or of course follow the official instructions from IPFS.
+
 - Spin up a devchain, using `aragon devchain --reset`
 - Deploy a token, you can use [this](https://github.com/aragon/dao-kits/tree/master/helpers/test-token-deployer), and run:
 ```
-truffle migrate --network rpc
+truffle migrate --network rpc --reset
 ```
 - Start the app:
 ```
