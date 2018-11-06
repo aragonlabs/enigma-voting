@@ -13,7 +13,7 @@ allFiredEvents
 scTopics
 
 # truffle build artifacts
-build
+/build
 abis.json
 
 # yarn
