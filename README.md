@@ -21,7 +21,10 @@ Or of course follow the official instructions from IPFS.
 - Spin up a devchain, using `aragon devchain --reset`
 - Deploy a token, you can use [this](https://github.com/aragon/dao-kits/tree/master/helpers/test-token-deployer), and run:
 ```
-truffle migrate --network rpc --reset
+cd dao-kits/helpers/test-token-deployer
+npm i
+./node_modules/.bin/truffle migrate --network rpc --reset
+grep -A 2 rpc index.js | tail -1 | cut -d '"' -f 2
 ```
 - Start the app:
 ```
