@@ -9,6 +9,13 @@ const globalArtifacts = this.artifacts // Not injected unless called directly vi
 const globalWeb3 = this.web3 // Not injected unless called directly via truffle
 
 const getEventResult = (receipt, event, param) => receipt.logs.filter(l => l.event == event)[0].args[param]
+const getEventResults = (receipt, event, param) => receipt.logs.filter(l => l.event == event)
+
+const apps = ['finance', 'token-manager', 'vault', 'voting-enigma']
+const appsMapping = apps.reduce((apps, app) => {
+  apps[namehash(`${app}.aragonpm.eth`)] = app
+  return apps
+}, {})
 
 module.exports = async (
   //truffleExecCallback, TODO: truffle exec doesn't work with callback ??
@@ -62,6 +69,14 @@ module.exports = async (
   log('New instance dao at:', daoAddress)
   const tokenAddress = getEventResult(receiptInstance, 'DeployToken', 'token')
   log('Using token:', tokenAddress)
+  log('Installed apps:')
+  const appLogs = getEventResults(receiptInstance, 'InstalledApp')
+  for (let i = 0; i < appLogs.length; i++) {
+    const appLog = appLogs[i]
+    const appAddress = appLog.args.appProxy
+    const app = appsMapping[appLog.args.appId]
+    log(`${app}: ${appAddress}`)
+  }
 
   /* TODO: truffle exec doesn't work with callback ??
   if (typeof truffleExecCallback === 'function') {
