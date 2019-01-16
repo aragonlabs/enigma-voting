@@ -63,7 +63,8 @@ module.exports = async (
     instanceParams.stakes,
     instanceParams.supportNeeded,
     instanceParams.minAcceptanceQuorum,
-    instanceParams.voteDuration
+    instanceParams.voteDuration,
+    instanceParams.enigmaAddress
   )
   const daoAddress = getEventResult(receiptInstance, 'DeployInstance', 'dao')
   log('New instance dao at:', daoAddress)

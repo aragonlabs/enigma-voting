@@ -53,7 +53,8 @@ contract EnigmaDemocracyKit is KitBase, IsContract {
         uint256[] stakes,
         uint64 supportNeeded,
         uint64 minAcceptanceQuorum,
-        uint64 voteDuration
+        uint64 voteDuration,
+        address enigmaAddress
     )
         public
     {
@@ -66,8 +67,7 @@ contract EnigmaDemocracyKit is KitBase, IsContract {
         acl.createPermission(this, dao, dao.APP_MANAGER_ROLE(), this);
 
         // deploy apps
-        Voting voting = deployApps(dao, acl);
-        MiniMeToken token = deployTokenManager(dao, acl, voting, name, symbol, holders, stakes);
+        (Voting voting, MiniMeToken token) = deployApps(dao, acl, name, symbol, holders, stakes);
 
         voting.initialize(
             token,
@@ -75,6 +75,9 @@ contract EnigmaDemocracyKit is KitBase, IsContract {
             minAcceptanceQuorum,
             voteDuration
         );
+
+        // grant update vote result to Enigma contract
+        acl.createPermission(enigmaAddress, voting, voting.UPDATE_VOTE_RESULT_ROLE(), voting);
 
         // EVMScriptRegistry permissions
         EVMScriptRegistry reg = EVMScriptRegistry(acl.getEVMScriptRegistry());
@@ -92,7 +95,13 @@ contract EnigmaDemocracyKit is KitBase, IsContract {
     /**
      * @dev Split to avoid stack too deep issue
      */
-    function deployApps(Kernel dao, ACL acl) internal returns (Voting voting) {
+    function deployApps(Kernel dao,
+        ACL acl,
+        string name,
+        string symbol,
+        address[] holders,
+        uint256[] stakes
+    ) internal returns (Voting voting, MiniMeToken token) {
         voting = Voting(
             dao.newAppInstance(
                 appIds[uint8(Apps.Voting)],
@@ -129,21 +138,8 @@ contract EnigmaDemocracyKit is KitBase, IsContract {
 
         vault.initialize();
         finance.initialize(vault, 30 days);
-        // Voting will be initialized after next function, because it needs token
-    }
+        // Voting will be initialized on parent function, to avoid stack too deep
 
-    function deployTokenManager(
-        Kernel dao,
-        ACL acl,
-        Voting voting,
-        string name,
-        string symbol,
-        address[] holders,
-        uint256[] stakes
-    )
-        internal
-        returns (MiniMeToken token)
-    {
         token = minimeFac.createCloneToken(
             MiniMeToken(address(0)),
             0,
