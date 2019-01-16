@@ -51,3 +51,9 @@ npm run start:local
 Then you can navigate to your DAO adding its address to the URL, something like: http://localhost:3000/#/0xdf5159290adbf0b5b00d9b104b437caa953a33f9, getting the DAO address from the output of the new instance script.
 
 - For other networks you can define an environment variable `ENS`, either manually in command line or adding to `.env` file.
+
+- If you want to deploy the kit in another network (instead of the one provided by `aragon devchain`), run the following script:
+```
+OWNER=0x46e153748d644fdacb29045006a0b5759fe56cd4 ./node_modules/.bin/truffle exec --network rpc scripts/enigma-democracy-deploy-kit-with-deps.js
+```
+replacing the value of the owner by the appropriate.
