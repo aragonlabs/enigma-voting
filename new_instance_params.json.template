@@ -1,7 +1,7 @@
 {
   "name": "enigmavotingtest",
   "symbol": "EVT",
-  "holders": ["0xb4124cEB3451635DAcedd11767f004d8a28c6eE7", "0x8401Eb5ff34cc943f096A32EF3d5113FEbE8D4Eb"],
+  "holders": ["0x46e153748d644FdAcb29045006a0b5759FE56cd4", "0x0623361c8beb35f1deab47b2de668c5c46ddcf77"],
   "stakes": [1000000000000000000000, 500000000000000000000],
   "supportNeeded": 500000000000000000,
   "minAcceptanceQuorum": 500000000000000000,
